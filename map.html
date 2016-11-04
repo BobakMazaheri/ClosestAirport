@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+</head>
+
+<body>
+
+<h1>Airport Flight Distance Calcualtor</h1>
+
+<p>Create a web app that calcualtes the distance (nautical miles) between two airports. Auto complete the airports by name. Feature all U.S. airports. Plot the trip on Google maps.
+<br>
+1. load csv of U.S. airports. https://datahub.io/dataset/global-airports<br>
+
+parse csv
+
+2. user enters names<br>
+3. Plot two pin on map<br>
+4. https://developers.google.com/maps/documentation/javascript/distancematrix<br>
+convert log, lat between two places to nautical miles to calcualte distance<br>
+5. 1 mile = .868976 Nautical miles<br>
+
+name,	city,	country,	airport code,	code 2,	long,	lat,
+</p>
+
+<div id="map" style="width:100%;height:500px"></div>
+
+
+<script>
+
+$.get('usa_airports.csv', function(data) {
+	// start the table	
+	var html = '<table class="table table-bordered">';
+	// split into lines
+	var rows = data.split("\n");
+	// parse lines
+	rows.forEach( function getvalues(ourrow) {
+		// start a table row
+		html += "<tr>";
+		// split line into columns
+		var columns = ourrow.split(",");
+		
+		html += "<td>" + columns[0] + "</td>";
+		html += "<td>" + columns[1] + "</td>";
+		html += "<td>" + columns[2] + "</td>";
+		
+		// close row
+		html += "</tr>";		
+	})
+	// close table
+	html += "</table>";
+	// insert into div
+	$('#container').append(html);
+	
+});
+
+
+function myMap() {
+  var mapCanvas = document.getElementById("map");
+  var mapOptions = {
+    center: new google.maps.LatLng(40.639751,-73.778925),
+    zoom: 10
+  };
+  var map = new google.maps.Map(mapCanvas, mapOptions);
+}
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?callback=myMap"></script>
+
+</body>
+</html>
